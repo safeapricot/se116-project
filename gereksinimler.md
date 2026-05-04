@@ -20,8 +20,7 @@
 
 https://docs.google.com/spreadsheets/d/1NtEnbjBe4NiHOC2rqLdRa-45NMeMcBmKBh7QHt6NVFI/edit?usp=sharing
 
-Yapay Zeka Kullanımı
----
+## Yapay Zeka Kullanımı
 
 \-> Kesinlikle yasak, herhangi bir bölümde yapay zeka kullandığımızı düşünürlerse sözlü sınav için çağıracaklar, bir bölümde yapay zeka kullanımına eminlerse direkt size ulaşmadan anında 0 alacaksınız. Kullanmıyoruz yani.
 
@@ -59,9 +58,7 @@ Yapay Zeka Kullanımı
 
 
 
+Referencelar
 
-
-
-
-
+\-> Mindmap yapmak için: whimsical.com
 
