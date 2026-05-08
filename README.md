@@ -63,6 +63,8 @@ https://docs.google.com/spreadsheets/d/1NtEnbjBe4NiHOC2rqLdRa-45NMeMcBmKBh7QHt6N
 
 \-> Reference kullandıysak dosyanın sonuna references bölümü eklemek gerekiyor.
 
+ObjectVille II Google doc:
+https://docs.google.com/document/d/e/2PACX-1vQQmLL5sTRmqpSJMKSLjH_7YAM8zWXuPDd2bK7ZMpPjdUCmEIaF4dds8lkDnr2_JXvCcM5tjbHwPA-3/pub
 
 
 Referencelar
