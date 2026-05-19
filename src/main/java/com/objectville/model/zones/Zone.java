@@ -36,4 +36,25 @@ public abstract class Zone extends Cell {
 
     public int getOutput() { return output; }
     public int getDemand() { return Math.max(1, output); }
+
+    // BFS algorithm için utility consuming methodu
+    // mantığı kafamda tam anlayamadım ileride belki değiştirilirse daha iyi olur
+
+    public int consumeUtility(String utilityType, int incomingAmount) {
+        int currentAmount = currentUtilities.getOrDefault(utilityType, 0);
+        int missingAmount = getDemand() - incomingAmount;
+
+        if (missingAmount == 0) {
+            return incomingAmount;
+        }
+
+        int amountToConsume = Math.min(incomingAmount, missingAmount);
+        currentUtilities.put(utilityType, currentAmount + amountToConsume);
+        return incomingAmount - amountToConsume;
+    }
+
+    @Override
+    public boolean isConnectable() {
+        return true;
+    }
 }

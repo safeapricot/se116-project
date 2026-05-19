@@ -13,6 +13,9 @@ public abstract class Cell {
     public int getY() { return y; }
     public char getSymbol() { return symbol; }
 
+    // UtilityProvider'in roadları ve zoneları kullanarak yayması için yeni özellik (BFS algorithm)
+    public abstract boolean isConnectable();
+
     @Override
     public String toString() { return String.valueOf(symbol); }
 }

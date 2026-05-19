@@ -1,6 +1,5 @@
 package com.objectville.engine;
 
-// importluyorum ki harflere göre atayabileyim
 import com.objectville.model.Cell;
 import com.objectville.model.Empty;
 import com.objectville.model.Road;
@@ -13,6 +12,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CityMap {
 
@@ -110,11 +110,14 @@ public class CityMap {
         System.out.println("Cells successfully loaded!");
     }
 
-    public char[][] getGrid() {
-        return charGrid;
-    }
+    public char[][] getGrid() {return charGrid; }
 
     public Cell[][] getCellGrid() {
         return cellGrid;
+    }
+
+    // alttaki method utilityprovider'in BFS algoritması için gerekli şimdilik sadece taslağı yazdım.
+    public List<Cell> getAdjacentCells(int x, int y) {
+        return null;
     }
 }
