@@ -21,10 +21,10 @@ gereksinimler
 
 ## Task Point System (TPS)
 
-\-> Bireysel ve takım katkısı olarak proje notumuz ikiye ayrılıyor. TPS, bizim katkımızı ölçmek için yapılmış bir liste. TPS'de kendimiz planladığımız küçük görevleri listeye ekleyip tamamlayıp puan kazanıyoruz. Görevin zorluğunu düzgün belirlediğimizden emin oluyoruz. Bu yüzden ayrıca arkadaşlarımızın neler yaptığına da dikkat etmeliyiz. Ne kadar çok görev yaparsak o kadar çok puanımız oluyor. Ancak gruptaki herkesin proje sonunda benzer puanlara sahip olması lazım çünkü proje notu \* katkı notu ile final puanınız belli oluyor, yani projeden grubumuz 100 puan alsa bile eğer çok az katkıda bulunduysanız 100 \* 0.3 ile 30 puan alırsınız. Yani istediğimiz projenin sonunda herkesin benzer katkı puanının olması, böylece herkes en fazla notu alır. Proje reposuna Task Point Systeme yönlendiren bir excel dosyası ekledim.
+\-> Bireysel ve takım katkısı olarak proje notumuz ikiye ayrılıyor. TPS, bizim katkımızı ölçmek için yapılmış bir liste. TPS'de kendimiz planladığımız küçük görevleri listeye ekleyip tamamlayıp puan kazanıyoruz. Görevin zorluğunu düzgün belirlediğimizden emin oluyoruz. Bu yüzden ayrıca arkadaşlarımızın neler yaptığına da dikkat etmeliyiz. Ne kadar çok görev yaparsak o kadar çok puanımız oluyor. Ancak gruptaki herkesin proje sonunda benzer puanlara sahip olması lazım çünkü proje notu \* katkı notu ile final puanınız belli oluyor, yani projeden grubumuz 100 puan alsa bile eğer çok az katkıda bulunduysanız 100 \* 0.3 ile 30 puan alırsınız. Yani istediğimiz projenin sonunda herkesin benzer katkı puanının olması, böylece herkes en fazla notu alır. Proje reposuna Task Point System excel dosyası ekledim.
 ## Yapay Zeka Kullanımı
 
-\-> Kesinlikle yasak, herhangi bir bölümde yapay zeka kullandığımızı düşünürlerse sözlü sınav için çağıracaklar, bir bölümde yapay zeka kullanımına eminlerse direkt size ulaşmadan anında 0 alacaksınız. Kullanmıyoruz yani.
+\-> Kesinlikle yasak (generative ai ile kod yazdırmak) ,  herhangi bir bölümü yapay zekaya yazdırdığımızı düşünürlerse sözlü sınav için çağıracaklar, bir bölümde yapay zeka kullanımına eminlerse direkt size ulaşmadan anında 0 alacaksınız. Kullanmıyoruz yani.
 
 
 
