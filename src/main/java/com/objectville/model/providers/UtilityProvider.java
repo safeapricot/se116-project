@@ -1,5 +1,9 @@
 package com.objectville.model.providers;
 
-public class UtilityProvider {
+import com.objectville.model.Cell;
 
+public abstract class UtilityProvider extends Cell {
+    public UtilityProvider(int x, int y, char symbol) {
+        super(x, y, symbol);
+    }
 }
