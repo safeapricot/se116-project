@@ -18,7 +18,6 @@ gereksinimler
 \-> İçinde manifest dosyası olmasına dikkat etmek gerek ki hangi classta main methodu olduğunu bilsin
 
 
-
 ## Task Point System (TPS)
 
 \-> Bireysel ve takım katkısı olarak proje notumuz ikiye ayrılıyor. TPS, bizim katkımızı ölçmek için yapılmış bir liste. TPS'de kendimiz planladığımız küçük görevleri listeye ekleyip tamamlayıp puan kazanıyoruz. Görevin zorluğunu düzgün belirlediğimizden emin oluyoruz. Bu yüzden ayrıca arkadaşlarımızın neler yaptığına da dikkat etmeliyiz. Ne kadar çok görev yaparsak o kadar çok puanımız oluyor. Ancak gruptaki herkesin proje sonunda benzer puanlara sahip olması lazım çünkü proje notu \* katkı notu ile final puanınız belli oluyor, yani projeden grubumuz 100 puan alsa bile eğer çok az katkıda bulunduysanız 100 \* 0.3 ile 30 puan alırsınız. Yani istediğimiz projenin sonunda herkesin benzer katkı puanının olması, böylece herkes en fazla notu alır. Proje reposuna Task Point System excel dosyası ekledim.
@@ -49,12 +48,12 @@ gereksinimler
 * Generic Type = Classlar vb.
 
 
-
 \-> Nerede lambda veya packaged unit kullandığımız,
 
 \-> kodumuzun yeni bir harita oluştururken harita dosyalarıyla ne yaptığını açıkladığımızı yazmamız gerekiyor
 
 \-> postmortem bölümü yazın demiş; postmortem nelerin doğru veya yanlış gittiğini, çukura düşüp düşmediğimizi - nasıl düşüp sorunu çözdüğümüzü veya nasıl düşmediğimizi- yazmamız gerekiyor.
+
 
 \-> Reference kullandıysak dosyanın sonuna references bölümü eklemek gerekiyor.
 
