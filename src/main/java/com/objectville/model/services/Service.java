@@ -2,16 +2,29 @@ package com.objectville.model.services;
 
 import com.objectville.model.Cell;
 
-//abstract
-public abstract class Service extends Cell {
 
-    public Service(int x, int y, char symbol) {
+public abstract class Service extends Cell {
+    protected int radius;
+    protected String serviceType;
+
+    public Service(int x, int y, char symbol, int radius, String serviceType) {
         super(x, y, symbol);
+        this.radius = radius;
+        this.serviceType = serviceType;
     }
 
+    public int getRadius() {
+        return radius;
+    }
+
+    public String getServiceType() {
+        return serviceType;
+    }
 
     @Override
     public boolean isConnectable() {
         return true;
     }
 }
+
+
