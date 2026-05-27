@@ -3,11 +3,10 @@ package com.objectville.model.zones;
 public class Industrial extends Zone {
 
     public Industrial(int x,int y) {
-        super(x, y, 'I')
-    }
-
+        super(x, y, 'I');
+        }
     @Override
-    public void uptadeLevelAndOutput() {
+    public void updateLevelAndOutput() {
         int m = getMinUtility();
         boolean basics = m > 0;
         boolean services = currentServices.get("Security") && currentServices.get("Health") && currentServices.get("Education");

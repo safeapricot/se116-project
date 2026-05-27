@@ -102,7 +102,7 @@ public class CityMap {
                         break;
                         //sanırım bu kadar
                     default:
-                        System.out.println("Error: unknown letter!");
+                        System.out.println("Error: Unknown letter!");
                         break;
                 }
             }
@@ -116,8 +116,23 @@ public class CityMap {
         return cellGrid;
     }
 
-    // alttaki method utilityprovider'in BFS algoritması için gerekli şimdilik sadece taslağı yazdım.
-    public List<Cell> getAdjacentCells(int x, int y) {
-        return null;
+    // alttaki method utilityprovider'in BFS algoritması için gerekli (komsularda isConnectable var mi diye bakcacagiz)
+    public List<Cell> getNeighbors(int x, int y) {
+        List <Cell> neighbors = new ArrayList<>();
+        int rowCount = charGrid.length;
+        int colCount = charGrid[0].length;
+
+        // (y - 1)
+        if (y > 0) neighbors.add(cellGrid[y - 1][x]);
+        // (y + 1)
+        if (y < rowCount - 1) neighbors.add(cellGrid[y + 1][x]);
+        // (x - 1)
+        if (x > 0) neighbors.add(cellGrid[y][x - 1]);
+        // (x + 1)
+        if (x < colCount - 1) neighbors.add(cellGrid[y][x + 1]);
+
+        return neighbors;
+
+
     }
 }
