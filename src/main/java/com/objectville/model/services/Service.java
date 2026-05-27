@@ -23,7 +23,7 @@ public abstract class Service extends Cell {
 
     @Override
     public boolean isConnectable() {
-        return true;
+        return false;
     }
 }
 

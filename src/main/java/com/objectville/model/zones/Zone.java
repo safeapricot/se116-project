@@ -1,9 +1,10 @@
 package com.objectville.model.zones;
+import com.objectville.interfaces.UtilityConsumer;
 import com.objectville.model.Cell;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Zone extends Cell {
+public abstract class Zone extends Cell implements UtilityConsumer {
     protected int level = 0;
     protected int output = 0;
     protected int demand = 1;
@@ -51,6 +52,14 @@ public abstract class Zone extends Cell {
         }
 
         int amountToConsume = Math.min(incomingAmount, missingAmount);
+
+
+        // log icin durum raporu
+
+        if  (amountToConsume > 0) {
+            System.out.println(this.getClass().getSimpleName() + " at " + "(" + this.getX() + "," + this.getY() + ") recieved " +  amountToConsume + " "+ utilityType);
+        }
+
         currentUtilities.put(utilityType, currentAmount + amountToConsume);
         return incomingAmount - amountToConsume;
     }

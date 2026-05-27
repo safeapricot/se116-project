@@ -3,6 +3,7 @@ This repository is the group project repository for the SE116 class for Team 07 
 
 
 
+
 gereksinimler
 
 1 -> Source Code barındıracak bir zip dosyası
@@ -18,9 +19,11 @@ gereksinimler
 \-> İçinde manifest dosyası olmasına dikkat etmek gerek ki hangi classta main methodu olduğunu bilsin
 
 
+
 ## Task Point System (TPS)
 
 \-> Bireysel ve takım katkısı olarak proje notumuz ikiye ayrılıyor. TPS, bizim katkımızı ölçmek için yapılmış bir liste. TPS'de kendimiz planladığımız küçük görevleri listeye ekleyip tamamlayıp puan kazanıyoruz. Görevin zorluğunu düzgün belirlediğimizden emin oluyoruz. Bu yüzden ayrıca arkadaşlarımızın neler yaptığına da dikkat etmeliyiz. Ne kadar çok görev yaparsak o kadar çok puanımız oluyor. Ancak gruptaki herkesin proje sonunda benzer puanlara sahip olması lazım çünkü proje notu \* katkı notu ile final puanınız belli oluyor, yani projeden grubumuz 100 puan alsa bile eğer çok az katkıda bulunduysanız 100 \* 0.3 ile 30 puan alırsınız. Yani istediğimiz projenin sonunda herkesin benzer katkı puanının olması, böylece herkes en fazla notu alır. Proje reposuna Task Point System excel dosyası ekledim.
+
 ## Yapay Zeka Kullanımı
 
 \-> Kesinlikle yasak (generative ai ile kod yazdırmak) ,  herhangi bir bölümü yapay zekaya yazdırdığımızı düşünürlerse sözlü sınav için çağıracaklar, bir bölümde yapay zeka kullanımına eminlerse direkt size ulaşmadan anında 0 alacaksınız. Kullanmıyoruz yani.
@@ -48,6 +51,7 @@ gereksinimler
 * Generic Type = Classlar vb.
 
 
+
 \-> Nerede lambda veya packaged unit kullandığımız,
 
 \-> kodumuzun yeni bir harita oluştururken harita dosyalarıyla ne yaptığını açıkladığımızı yazmamız gerekiyor
@@ -55,13 +59,17 @@ gereksinimler
 \-> postmortem bölümü yazın demiş; postmortem nelerin doğru veya yanlış gittiğini, çukura düşüp düşmediğimizi - nasıl düşüp sorunu çözdüğümüzü veya nasıl düşmediğimizi- yazmamız gerekiyor.
 
 
+
 \-> Reference kullandıysak dosyanın sonuna references bölümü eklemek gerekiyor.
 
 ObjectVille II Google doc:
-https://docs.google.com/document/d/e/2PACX-1vQQmLL5sTRmqpSJMKSLjH_7YAM8zWXuPDd2bK7ZMpPjdUCmEIaF4dds8lkDnr2_JXvCcM5tjbHwPA-3/pub
+https://docs.google.com/document/d/e/2PACX-1vQQmLL5sTRmqpSJMKSLjH\_7YAM8zWXuPDd2bK7ZMpPjdUCmEIaF4dds8lkDnr2\_JXvCcM5tjbHwPA-3/pub
+
 
 
 Referencelar
 
 \-> Mindmap yapmak için: whimsical.com
+
+\-> HashSet nedir : https://medium.com/@Kolay.Zeka/c-dilinde-dictionary-ve-hashset-kullan%C4%B1m%C4%B1-ve-farklar%C4%B1-4048d7d5e
 

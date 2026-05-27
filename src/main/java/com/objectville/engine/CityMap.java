@@ -116,7 +116,7 @@ public class CityMap {
         return cellGrid;
     }
 
-    // alttaki method utilityprovider'in BFS algoritması için gerekli (komsularda isConnectable var mi diye bakcacagiz)
+    // alttaki method utilityprovider'in BFS algoritması için gerekli (komsularda isConnectable var mi diye bakacagiz)
     public List<Cell> getNeighbors(int x, int y) {
         List <Cell> neighbors = new ArrayList<>();
         int rowCount = charGrid.length;
