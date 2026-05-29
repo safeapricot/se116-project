@@ -1,56 +1,88 @@
 package com.objectville.engine;
 
-import com.objectville.model.Cell;
-import com.objectville.model.zones.Commercial;
-import com.objectville.model.zones.Housing;
-import com.objectville.model.zones.Industrial;
-
-// initially ResourcePooL'da L büyüktü onu düzelttim.
-// ayrıca uzun bir sure sanki BFS yokmus gibi bu class'ı yazmıştım ama sonradan fark ettim...
 public class ResourcePool {
-    private int totalPopulation=0;
-    private int totalGoods=0;
-    private int totalLifeStyle=0;
-    private int totalElectricityConsumed;
-    private int totalWaterConsumed;
-    private int totalInternetConsumed;
-    private int totalElectricityProduced;
-    private int totalWaterProduced;
-    private int totalInternetProduced;
+    private int population;
+    private int lifestyle;
+    private int goods;
 
-    public void collectProductions(Cell[][] grid){
-        for(int i=0; i<grid.length; i++){
-            for(int j=0; j< grid[0].length; j++){
-                if(grid [i][j] instanceof Housing){
-                    totalPopulation += ((Housing) grid[i][j]).getOutput();}
-                else if(grid[i][j] instanceof Industrial){
-                    totalGoods += ((Industrial)grid[i][j]).getOutput();}
-                else if(grid[i][j] instanceof Commercial){
-                    totalLifeStyle += ((Commercial) grid[i][j]).getOutput();
-                }
+    //First constructor for to start from scratch, according to the normal rules of the game.
+    public ResourcePool() {
+        this.population = 0;
+        this.lifestyle = 0;
+        this.goods = 0;
+    }
 
+    //Second constructor for testing and quick value assignment
+    //OVERLOADİNG
+    public ResourcePool(int population, int lifestyle, int goods) {
+        this.population = population;
+        this.lifestyle = lifestyle;
+        this.goods = goods;
+    }
 
-            }
+    public int getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(int population) {
+        this.population = population;
+    }
+
+    public int getLifestyle() {
+        return lifestyle;
+    }
+
+    public void setLifestyle(int lifestyle) {
+        this.lifestyle = lifestyle;
+    }
+
+    public int getGoods() {
+        return goods;
+    }
+
+    public void setGoods(int goods) {
+        this.goods = goods;
+    }
+
+    public void addpopulation(int a) {
+        this.population =population + a;
+    }
+
+    public void addlifestyle(int a) {
+        this.lifestyle = lifestyle + a;
+    }
+    public void addgoods(int a) {
+        this.goods = goods + a;
+    }
+
+    public void consumePopulation(int a) {
+        if(population >= a) {
+            population = population - a;
+        }else{
+            System.out.println("Not enough population");
         }
     }
 
-    public void distributeRecources(Cell[][] grid){
-        int commercialCount= 0;
-        int housingCount= 0;
-        int industrialCount=0;
-
-        for(int i=0; i< grid.length; i++){
-            for(int j=0; j< grid[0].length; j++){
-                if(grid[i][j] instanceof Commercial){
-                    commercialCount++; }
-                else if (grid[i][j] instanceof Housing){
-                  housingCount++;}
-                else if(grid[i][j] instanceof Industrial){
-                    industrialCount++;}
-            }
+    public void consumeLifestyle(int a) {
+        if(lifestyle >= a) {
+            lifestyle = lifestyle - a;
+        }
+        else {
+            System.out.println("Not enough lifestyle");
         }
     }
-//biraz yapabildim ama tam emin değilim tekrar dönücem.
 
-
+    public void consumeGoods(int a) {
+        if(goods >= a) {
+            goods = goods - a;
+        }
+        else {
+            System.out.println("Not enough goods");
+        }
+    }
+    public void printPoolState(){
+        System.out.println("Population: " + population);
+        System.out.println("Lifestyle: " + lifestyle);
+        System.out.println("Goods: " + goods);
+    }
 }
