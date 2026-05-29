@@ -44,7 +44,7 @@ public abstract class Zone extends Cell implements UtilityConsumer {
         int currentAmount = currentUtilities.getOrDefault(utilityType, 0);
         // getOrDefault = bir ihtimal null dondurup hata vermemesi icin kullandik.
         // eger null dondureceksen dondurme 0 ver diyoruz.
-        int missingAmount = getDemand() - incomingAmount;
+        int missingAmount = getDemand() - currentAmount;//incomingi değil de currenti çıkarmamız gerekiyor diye düşündüm o yüzden düzelttim.tekrar bakarız
 
         if (missingAmount == 0) {
             return incomingAmount;

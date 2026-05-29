@@ -16,6 +16,10 @@ import java.util.Set;
 public class SimulationManager {
     private CityMap map;
 
+    public SimulationManager(CityMap map){
+        this.map=map;
+    }
+
 
 
 
