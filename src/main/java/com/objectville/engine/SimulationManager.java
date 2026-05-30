@@ -68,31 +68,32 @@ public class SimulationManager {
         List<Industrial> industrials = new ArrayList<>();
         List<Commercial> commercials = new ArrayList<>();
 
-        for (Cell[] row : grid)
+        for (Cell[] row : grid) {
             for (Cell cell : row) {
                 if (cell instanceof Housing) houses.add((Housing) cell);
                 else if (cell instanceof Industrial) industrials.add((Industrial) cell);
                 else if (cell instanceof Commercial) commercials.add((Commercial) cell);
             }
+        }
 
-        // population -> industrial ve commercial'a esit paylas
         int totalReceivers = industrials.size() + commercials.size();
         if (totalReceivers > 0) {
             int perZone = pool.getPopulation() / totalReceivers;
             for (Industrial i : industrials) i.receivedPopulation = perZone;
             for (Commercial c : commercials) c.receivedPopulation = perZone;
+            pool.consumePopulation(perZone * totalReceivers);
         }
 
-        // goods -> commercial'a
         if (!commercials.isEmpty()) {
             int perC = pool.getGoods() / commercials.size();
             for (Commercial c : commercials) c.receivedGoods = perC;
+            pool.consumeGoods(perC * commercials.size());
         }
 
-        // lifestyle -> house'a
         if (!houses.isEmpty()) {
             int perH = pool.getLifestyle() / houses.size();
             for (Housing h : houses) h.receivedLifestyle = perH;
+            pool.consumeLifestyle(perH * houses.size());
         }
     }
 
@@ -138,7 +139,7 @@ public class SimulationManager {
                 if (grid[i][j] instanceof Zone) {
                     Zone currentZone = (Zone) grid[i][j]; // zone olarak downcasting yapiyoruz cunku getX ve getY kullanmamiz lazim.
 
-                    double distance = Math.sqrt(Math.pow(currentZone.getX() - x, 2) + Math.sqrt(Math.pow(currentZone.getY() - y,2))); // euclid
+                    double distance = Math.sqrt(Math.pow(currentZone.getX() - x, 2) + Math.pow(currentZone.getY() - y, 2)); // euclid
 
                     if (distance <= r) {
                         currentZone.currentServices.put(service.getServiceType(),true);

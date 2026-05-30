@@ -5,6 +5,7 @@ public class PowerPlant extends UtilityProvider {
     public PowerPlant(int x, int y) {
         super(x, y, 'P');
         this.productionAmount = 100;
+        this.utilityType = "Electricity";
     }
 
 
