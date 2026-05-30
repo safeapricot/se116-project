@@ -9,10 +9,17 @@ public class Housing extends Zone {
         boolean basics = m > 0;
         boolean services = currentServices.get("Security") && currentServices.get("Health") && currentServices.get("Education");
 
-        if (!basics) { level = 0; }
-        else if (level == 0) level = 1;
-        else if (level == 1 && services) level = 2;
-        else if (level == 2 && receivedLifestyle > 0) level = 3;
+        if (!basics) {
+            level = 0;
+        } else {
+            int targetLevel;
+            if (services && receivedLifestyle > 0) targetLevel = 3;
+            else if (services) targetLevel = 2;
+            else targetLevel = 1;
+
+            if (targetLevel > level) level = level + 1;
+            else if (targetLevel < level) level = level - 1;
+        }
 
         if (level == 0) output = 0;
         else if (level == 1) output = m;

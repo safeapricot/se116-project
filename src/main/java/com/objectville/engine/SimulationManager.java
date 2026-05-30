@@ -7,11 +7,8 @@ import com.objectville.model.zones.Commercial;
 import com.objectville.model.zones.Housing;
 import com.objectville.model.zones.Industrial;
 import com.objectville.model.zones.Zone;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.HashSet;
-import java.util.Set;
+
+import java.util.*;
 
 public class SimulationManager {
     private CityMap map;
@@ -52,6 +49,70 @@ public class SimulationManager {
                 }
             }
         }
+    }
+
+    public void distributeUtilities() {
+        Cell[][] grid = map.getCellGrid();
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j] instanceof UtilityProvider) {
+                    UtilityProvider up = (UtilityProvider) grid[i][j];
+                    distributeBFS(up, up.getUtilityType(), up.getCapacity());
+                }
+            }
+        }
+    }
+
+    private void distributeResources(ResourcePool pool, Cell[][] grid) {
+        List<Housing> houses = new ArrayList<>();
+        List<Industrial> industrials = new ArrayList<>();
+        List<Commercial> commercials = new ArrayList<>();
+
+        for (Cell[] row : grid)
+            for (Cell cell : row) {
+                if (cell instanceof Housing) houses.add((Housing) cell);
+                else if (cell instanceof Industrial) industrials.add((Industrial) cell);
+                else if (cell instanceof Commercial) commercials.add((Commercial) cell);
+            }
+
+        // population -> industrial ve commercial'a esit paylas
+        int totalReceivers = industrials.size() + commercials.size();
+        if (totalReceivers > 0) {
+            int perZone = pool.getPopulation() / totalReceivers;
+            for (Industrial i : industrials) i.receivedPopulation = perZone;
+            for (Commercial c : commercials) c.receivedPopulation = perZone;
+        }
+
+        // goods -> commercial'a
+        if (!commercials.isEmpty()) {
+            int perC = pool.getGoods() / commercials.size();
+            for (Commercial c : commercials) c.receivedGoods = perC;
+        }
+
+        // lifestyle -> house'a
+        if (!houses.isEmpty()) {
+            int perH = pool.getLifestyle() / houses.size();
+            for (Housing h : houses) h.receivedLifestyle = perH;
+        }
+    }
+
+    private void updateZonesAndAccumulate(ResourcePool pool, Cell[][] grid) {
+        for (Cell[] row : grid)
+            for (Cell cell : row) {
+                if (cell instanceof Housing) {
+                    Housing h = (Housing) cell;
+                    h.updateLevelAndOutput();
+                    pool.addpopulation(h.getOutput());
+                } else if (cell instanceof Industrial) {
+                    Industrial i = (Industrial) cell;
+                    i.updateLevelAndOutput();
+                    pool.addgoods(i.getOutput());
+                } else if (cell instanceof Commercial) {
+                    Commercial c = (Commercial) cell;
+                    c.updateLevelAndOutput();
+                    pool.addlifestyle(c.getOutput());
+                }
+            }
     }
 
     // servicelari paylastirmak icin gereken method

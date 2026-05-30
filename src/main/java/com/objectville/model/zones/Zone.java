@@ -26,6 +26,9 @@ public abstract class Zone extends Cell implements UtilityConsumer {
         currentServices.put("Security", false);
         currentServices.put("Health", false);
         currentServices.put("Education", false);
+        receivedPopulation = 0;
+        receivedGoods = 0;
+        receivedLifestyle = 0;
     }
 
     public int getMinUtility() {
@@ -44,7 +47,7 @@ public abstract class Zone extends Cell implements UtilityConsumer {
         int currentAmount = currentUtilities.getOrDefault(utilityType, 0);
         // getOrDefault = bir ihtimal null dondurup hata vermemesi icin kullandik.
         // eger null dondureceksen dondurme 0 ver diyoruz.
-        int missingAmount = getDemand() - currentAmount;//incomingi değil de currenti çıkarmamız gerekiyor diye düşündüm o yüzden düzelttim.tekrar bakarız
+        int missingAmount = Math.max(0, getDemand() - currentAmount);//incomingi değil de currenti çıkarmamız gerekiyor diye düşündüm o yüzden düzelttim.tekrar bakarız
 
         if (missingAmount == 0) {
             return incomingAmount;
@@ -62,6 +65,7 @@ public abstract class Zone extends Cell implements UtilityConsumer {
         currentUtilities.put(utilityType, currentAmount + amountToConsume);
         return incomingAmount - amountToConsume;
     }
+
 
     @Override
     public boolean isConnectable() {
