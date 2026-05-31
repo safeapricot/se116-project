@@ -71,4 +71,23 @@ public abstract class Zone extends Cell implements UtilityConsumer {
     public boolean isConnectable() {
         return true;
     }
+
+    @Override
+    public void consumeElectricity(int amount) {
+        consumeUtility("Electricity", amount);
+    }
+
+    @Override
+    public void consumeWater(int amount){
+        consumeUtility("Water", amount);
+    }
+    @Override
+    public void consumeInternet(int amount) {
+        consumeUtility("Internet", amount);
+    }
+
+    @Override
+    public boolean isFullySupplied() {
+        return getMinUtility() >= getDemand();
+    }
 }

@@ -44,14 +44,14 @@ public class ResourcePool {
         this.goods = goods;
     }
 
-    public void addpopulation(int a) {
+    public void addPopulation(int a) {
         this.population =population + a;
     }
 
-    public void addlifestyle(int a) {
+    public void addLifestyle(int a) {
         this.lifestyle = lifestyle + a;
     }
-    public void addgoods(int a) {
+    public void addGoods(int a) {
         this.goods = goods + a;
     }
 

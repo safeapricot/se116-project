@@ -1,6 +1,10 @@
 package com.objectville.model.zones;
 
-public class Housing extends Zone {
+import com.objectville.interfaces.UtilityConsumer;
+
+import java.io.Serializable;
+
+public class Housing extends Zone implements UtilityConsumer {
     public Housing(int x, int y) { super(x, y, 'H'); }
 
     @Override
@@ -25,5 +29,25 @@ public class Housing extends Zone {
         else if (level == 1) output = m;
         else if (level == 2) output = 2 * m;
         else output = 2 * m + receivedLifestyle;
+    }
+
+    @Override
+    public void consumeElectricity(int amount) {
+
+    }
+
+    @Override
+    public void consumeWater(int amount) {
+
+    }
+
+    @Override
+    public void consumeInternet(int amount) {
+
+    }
+
+    @Override
+    public boolean isFullySupplied() {
+        return false;
     }
 }
