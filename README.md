@@ -75,3 +75,5 @@ Referencelar
 
 \-> JRE nasıl yapılır : https://www.jetbrains.com/help/idea/compiling-applications.html
 
+\-> System.setOut : https://www.tutorialspoint.com/java/lang/system\_setout.htm
+

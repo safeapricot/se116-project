@@ -142,7 +142,6 @@ public class SimulationManager {
                         currentZone.currentServices.put(service.getServiceType(),true);
 
                         // simdi konsola yazdirilmasi gereken yer
-                        // TODO: burasi ileride bufferedwriter olarak degisecek !!!
                         if (currentZone.getClass().equals(Housing.class)) { // burada output.txt'ye olabildigi kadar benzetmeye calisiyorum. normalde bizim class'in adi House olsaydi cok daha basit olurdu ama bizimki Housing.
                             System.out.println("House at " + "(" + currentZone.getX() + "," + currentZone.getY() + ") recieved " + service.getServiceType() + " service");
                         } else if ( (currentZone.getClass().equals(Commercial.class)) ||  (currentZone.getClass().equals(Industrial.class)) )   {
