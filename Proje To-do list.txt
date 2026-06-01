@@ -32,9 +32,9 @@ Proje To-do list
 
 - Internet Hub (yapıldı)
 
-- Utility demand hesabı
+- Utility demand hesabı (yapıldı)
 
-- Utility absorb
+- Utility absorb (yapıldı)
 
 	*Resource distribution**
 
