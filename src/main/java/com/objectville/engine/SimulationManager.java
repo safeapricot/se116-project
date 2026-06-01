@@ -100,18 +100,15 @@ public class SimulationManager {
     private void updateZonesAndAccumulate(ResourcePool pool, Cell[][] grid) {
         for (Cell[] row : grid)
             for (Cell cell : row) {
-                if (cell instanceof Housing) {
-                    Housing h = (Housing) cell;
+                if (cell instanceof Housing h) {
                     h.updateLevelAndOutput();
-                    pool.addpopulation(h.getOutput());
-                } else if (cell instanceof Industrial) {
-                    Industrial i = (Industrial) cell;
+                    pool.addPopulation(h.getOutput());
+                } else if (cell instanceof Industrial i) {
                     i.updateLevelAndOutput();
-                    pool.addgoods(i.getOutput());
-                } else if (cell instanceof Commercial) {
-                    Commercial c = (Commercial) cell;
+                    pool.addGoods(i.getOutput());
+                } else if (cell instanceof Commercial c) {
                     c.updateLevelAndOutput();
-                    pool.addlifestyle(c.getOutput());
+                    pool.addLifestyle(c.getOutput());
                 }
             }
     }
@@ -119,10 +116,10 @@ public class SimulationManager {
     // servicelari paylastirmak icin gereken method
     public void provideServices() {
         Cell[][] grid = map.getCellGrid();
-        for (int i = 0; i < grid.length; i++) {
+        for (Cell[] cells : grid) {
             for (int j = 0; j < grid[0].length; j++) {
-                if (grid[i][j] instanceof Service) {
-                    Service service = (Service) grid[i][j];
+                if (cells[j] instanceof Service) {
+                    Service service = (Service) cells[j];
                     setRadius(service, grid); // teker teker service'lari arayip radiuslari ciziyoruz
                 }
             }
@@ -151,14 +148,10 @@ public class SimulationManager {
                         } else if ( (currentZone.getClass().equals(Commercial.class)) ||  (currentZone.getClass().equals(Industrial.class)) )   {
                             System.out.println(currentZone.getClass() + " at " + "(" + currentZone.getX() + "," + currentZone.getY() + ") received " + service.getServiceType() + " service");
                         }
-
-
                     }
                 }
 
             }
-
         }
-
     }
 }

@@ -73,3 +73,5 @@ Referencelar
 
 \-> HashSet nedir : https://medium.com/@Kolay.Zeka/c-dilinde-dictionary-ve-hashset-kullan%C4%B1m%C4%B1-ve-farklar%C4%B1-4048d7d5e
 
+\-> JRE nasıl yapılır : https://www.jetbrains.com/help/idea/compiling-applications.html
+
