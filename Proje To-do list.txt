@@ -1,0 +1,107 @@
+Proje To-do list
+
+	Harita
+
+- Harita okuma sistemi (yapıldı)
+
+- Hücre sınıflandırması (yapıldı)
+
+
+- iletkenlik (yapıldı)
+- Komşuluk bulma (yapıldı)
+
+	*Services*
+
+- Öklid şeklinde mesafe hesaplaması (yapıldı)
+
+- Polis istasyonu (yapıldı)
+
+- Hastane (yapıldı)
+
+- Okul (yapıldı)
+
+- Yarıçapı bulup zone'ların hizmetlerde true vermesi (yapıldı)
+
+	*Kaynaklar*
+
+- BFS dalgası (yapıldı)
+
+- Power Plant (yapıldı)
+
+- Water Station (yapıldı)
+
+- Internet Hub (yapıldı)
+
+- Utility demand hesabı
+
+- Utility absorb
+
+	*Resource distribution**
+
+- Merkezi pool sistemi 
+
+- Population dağıtımı
+
+- Goods dağıtımı
+
+- Lifestyle dağıtımı
+
+	*Zone updates* !!
+--------------------------------------------------
+
+- Level 0'dan 1'e atlama şartları
+
+Housing -> elektrik + su + internet gelmiş olması
+
+Industrial -> population + elektrik + su gelmiş olması
+
+Commercial -> population + goods + elektrik + su + internet gelmiş olması
+
+--------------------------------------------------
+
+- Level 1 -> Level 2 atlama şartları:
+
+Housing -> Level 1 şartları + Security + Health + Education gelmiş olması.
+
+Industrial -> Level 1 şartları + Security gelmiş olması.
+
+Commercial -> Level 1 şartları + Security gelmiş olması.
+
+--------------------------------------------------
+
+- Level 2 -> Level 3 atlama şartları:
+
+Housing -> Level 2 şartları + Lifestyle gelmiş olması.
+
+Industrial -> Level 2 şartları + Excess Population (Fazla Nüfus) gelmiş olması.
+
+Commercial -> Level 2 şartları + Excess Population + Goods gelmiş olması.
+
+--------------------------------------------------
+
+- Output (Üretim) Hesaplamaları: Dökümandaki tabloya göre her seviye için üretilecek miktarın (m, 2m, 2m + alınan ekstra kaynak vb.) formüle edilmesi.
+
+Üretimi Kasaya Ekleme: O tur hesaplanan tüm output'ların bir sonraki turun (Step 3) dağıtımı için merkezi kasaya aktarılması.
+
+	*Simülasyon Motoru (The Game Loop)*
+
+Birinci turda kasada hiçbir şey olmadığı için Step 3'ün boş geçilmesi, binaların sadece hizmet ve altyapı alması.
+
+Tick Sıralamasının Kurulması: Döngünün her tur istisnasız şu sırayla çalışması: Step 1 (Services) -> Step 2 (Utilities) -> Step 3 (Distribute Old Production) -> Step 4 (Update Zones) -> Step 5 (Accumulate New Production).
+
+CLI (Command Line) Entegrasyonu: Projenin java -jar ObjectVilleGame.jar map.txt 5 şeklinde, dışarıdan dosya adı ve toplam tick sayısı argümanlarını alarak çalıştırılabilir (runnable) hale getirilmesi. (yapıldı)
+
+Konsol Çıktısı (Logging): Hocaların örnek çıktı dosyasıyla (sample output) eşleşecek şekilde, her turda olan bitenin konsola temiz bir şekilde yazdırılması.
+
+--------------------------------------------------
+	Ekstra
+- JRE dosyasının projenin son halinde rebuild edilmesi
+
+- Manifest dosyası (yapıldı)
+
+- Task Point System'de Developer List sayfasının doldurulması
+
+- Proje raporunun yazılması
+
+
+
