@@ -42,12 +42,12 @@ public class Housing extends Zone implements UtilityConsumer {
 
     @Override
     public void consumeElectricity(int amount) {
-
+    //ilerde elektriğe özel hesaplama olur diye eklendi.Şuanda sadece consumeUtility kullanılıyor.
     }
 
     @Override
     public void consumeWater(int amount) {
-
+//suya özel hesaplama için
     }
 
     @Override
