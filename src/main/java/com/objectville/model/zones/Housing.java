@@ -11,6 +11,10 @@ public class Housing extends Zone implements UtilityConsumer {
     public void updateLevelAndOutput() {
         int m = getMinUtility();
         boolean level1Requirement =(m>0);
+        boolean hasSecurity= currentServices.containsKey("Security") && currentServices.get("Security");
+        boolean hasHealth= currentServices.containsKey(" Health ") && currentServices.get("Health");
+        boolean hasEducation = currentServices.containsKey("Education")  && currentServices.get("Education");
+
         boolean level2Requirement = level1Requirement && currentServices.get("Security")&& currentServices.get("Health") && currentServices.get("Education");
         boolean level3Requirement = level2Requirement && (receivedLifestyle > 0);
 
