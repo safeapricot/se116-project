@@ -10,19 +10,28 @@ public class Housing extends Zone implements UtilityConsumer {
     @Override
     public void updateLevelAndOutput() {
         int m = getMinUtility();
-        boolean basics = m > 0;
-        boolean services = currentServices.get("Security") && currentServices.get("Health") && currentServices.get("Education");
+        boolean level1Requirement =(m>0);
+        boolean level2Requirement = level1Requirement && currentServices.get("Security")&& currentServices.get("Health") && currentServices.get("Education");
+        boolean level3Requirement = level2Requirement && (receivedLifestyle > 0);
 
-        if (!basics) {
+        if (!level1Requirement) {
             level = 0;
-        } else {
-            int targetLevel;
-            if (services && receivedLifestyle > 0) targetLevel = 3;
-            else if (services) targetLevel = 2;
-            else targetLevel = 1;
-
-            if (targetLevel > level) level = level + 1;
-            else if (targetLevel < level) level = level - 1;
+        } else if (level3Requirement) {
+            if (level < 3) {
+                level++;
+            }
+        } else if (level2Requirement) {
+            if (level < 2) {
+                level++;
+            } else if (level > 2) {
+                level--;
+            }
+        } else if (level1Requirement) {
+            if (level == 0) {
+                level++;
+            } else if (level > 1) {
+                level--;
+            }
         }
 
         if (level == 0) output = 0;

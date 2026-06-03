@@ -6,25 +6,31 @@ public class Commercial extends Zone {
     @Override
     public void updateLevelAndOutput() {
         int m = getMinUtility();
-        boolean basics = m > 0 && receivedPopulation > 0 && receivedGoods > 0;
-        boolean services = currentServices.get("Security") && currentServices.get("Health") && currentServices.get("Education");
+       boolean level1Requirement = (m>0) && (receivedPopulation > 0) && (receivedGoods > 0);
+       boolean level2Requirement = level1Requirement && currentServices.get("Security");
+       boolean level3Requirement = level2Requirement && (receivedPopulation > 1);
 
-        // SEVİYE
-        if (!basics) {
+        if (!level1Requirement) {
             level = 0;
-        } else {
-            int targetLevel;
-            if (services && receivedGoods > 0 && receivedPopulation > 0) targetLevel = 3;
-            else if (services) targetLevel = 2;
-            else targetLevel = 1;
-
-            // max 1 adım değiş
-            if (targetLevel > level) level = level + 1;
-            else if (targetLevel < level) level = level - 1;
+        } else if (level3Requirement) {
+            if (level < 3) {
+                level++;
+            }
+        } else if (level2Requirement) {
+            if (level < 2) {
+                level++;
+            } else if (level > 2) {
+                level--;
+            }
+        } else if (level1Requirement) {
+            if (level == 0) {
+                level++;
+            } else if (level > 1) {
+                level--;
+            }
         }
 
-        // ÜRETİM
-        if (level == 0) output = 0;
+    if (level == 0) output = 0;
         else if (level == 1) output = m;
         else if (level == 2) output = 2 * m;
         else output = 2 * m + Math.min(receivedPopulation, receivedGoods);
