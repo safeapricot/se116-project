@@ -62,43 +62,44 @@ public class CityMap {
         int rowCount = charGrid.length;
         int colCount = charGrid[0].length;
         cellGrid = new Cell[rowCount][colCount];
-        for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < colCount; j++) {
+        for (int i = 0; i < rowCount; i++) {        // i = satır
+            for (int j = 0; j < colCount; j++) {    // j = sütun
                 char letter = charGrid[i][j];
 
+                // dikkat: x = sütun (j), y = satır (i)
                 switch (letter) {
                     case 'E':
-                        cellGrid[i][j] = new Empty(i, j);
+                        cellGrid[i][j] = new Empty(j, i);
                         break;
                     case 'R':
-                        cellGrid[i][j] = new Road(i, j);
+                        cellGrid[i][j] = new Road(j, i);
                         break;
                     case 'T':
-                        cellGrid[i][j] = new InternetHub(i, j);
+                        cellGrid[i][j] = new InternetHub(j, i);
                         break;
                     case 'W':
-                        cellGrid[i][j] = new WaterPumpingStation(i, j);
+                        cellGrid[i][j] = new WaterPumpingStation(j, i);
                         break;
                     case 'I':
-                        cellGrid[i][j] = new Industrial(i, j);
+                        cellGrid[i][j] = new Industrial(j, i);
                         break;
                     case 'S':
-                        cellGrid[i][j] = new School(i, j);
+                        cellGrid[i][j] = new School(j, i);
                         break;
                     case 'D':
-                        cellGrid[i][j] = new Hospital(i, j);
+                        cellGrid[i][j] = new Hospital(j, i);
                         break;
                     case 'F':
-                        cellGrid[i][j] = new PoliceStation(i, j);
+                        cellGrid[i][j] = new PoliceStation(j, i);
                         break;
                     case 'H':
-                        cellGrid[i][j] = new Housing(i, j);
+                        cellGrid[i][j] = new Housing(j, i);
                         break;
                     case 'C':
-                        cellGrid[i][j] = new Commercial(i, j);
+                        cellGrid[i][j] = new Commercial(j, i);
                         break;
                     case 'P':
-                        cellGrid[i][j] = new PowerPlant(i, j);
+                        cellGrid[i][j] = new PowerPlant(j, i);
                         break;
                     //sanırım bu kadar
                     default:
@@ -124,18 +125,19 @@ public class CityMap {
         int rowCount = charGrid.length;
         int colCount = charGrid[0].length;
 
-        // (y - 1)
+        // yukarı-aşağı-sol-sağ
         if (y > 0) neighbors.add(cellGrid[y - 1][x]);
-        // (y + 1)
         if (y < rowCount - 1) neighbors.add(cellGrid[y + 1][x]);
-        // (x - 1)
         if (x > 0) neighbors.add(cellGrid[y][x - 1]);
-        // (x + 1)
         if (x < colCount - 1) neighbors.add(cellGrid[y][x + 1]);
 
+        // çaprazlar (8-komşuluk için ekledim)
+        if (y > 0 && x > 0) neighbors.add(cellGrid[y - 1][x - 1]);
+        if (y > 0 && x < colCount - 1) neighbors.add(cellGrid[y - 1][x + 1]);
+        if (y < rowCount - 1 && x > 0) neighbors.add(cellGrid[y + 1][x - 1]);
+        if (y < rowCount - 1 && x < colCount - 1) neighbors.add(cellGrid[y + 1][x + 1]);
+
         return neighbors;
-
-
     }
 
     //TOPLAM TALEP
@@ -157,56 +159,4 @@ public class CityMap {
         return totalDemand;
     }
 
-    public void moveUtility() {
-        for (int i = 0; i < cellGrid.length; i++) {
-            for (int j = 0; j < cellGrid[0].length; j++) {
-                char letter = charGrid[i][j];
-                if (letter == 'W' || letter == 'P' || letter == 'I') {
-
-                    runBFS(cellGrid[i][j]);
-                }
-            }
-        }
-        System.out.println("Distribute is completed");
-    }
-
-    //Burayı kesin KONTROL edin
-
-    public void runBFS(Cell providerCell){
-        ArrayList<Cell> queue = new ArrayList<>();
-        ArrayList<Cell> visited = new ArrayList<>();
-
-        queue.add(providerCell);
-        visited.add(providerCell);
-
-        String utilityType =providerCell.getUtilityType();
-        int availableUtility = providerCell.getOutput();
-
-        while(queue.size()>0 && availableUtility > 0){
-            Cell nextCell = queue.remove(0);
-            List<Cell> neighbors = getNeighbors(nextCell.getX(), nextCell.getY());
-
-            for (Cell neighbor : neighbors) {
-                if (visited.contains(neighbor)) {
-                }
-                else {
-                    visited.add(neighbor);
-                }
-
-                char neighborSymbol = charGrid[neighbor.getY()][neighbor.getX()];
-                if (neighborSymbol == 'R' ){
-                    queue.add(neighbor);
-                }
-                else if (neighborSymbol == 'H' || neighborSymbol == 'I' || neighborSymbol == 'C') {
-                    availableUtility = neighbor.consumeUtility(utilityType, availableUtility);
-                }
-            }
-        }
-    }
-
 }
-
-
-
-
-

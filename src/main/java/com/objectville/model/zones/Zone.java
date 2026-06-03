@@ -44,6 +44,9 @@ public abstract class Zone extends Cell implements UtilityConsumer {
     // BFS algorithm için utility consuming methodu
     
     public int consumeUtility(String utilityType, int incomingAmount) {
+        if (!requiresUtility(utilityType)) {
+            return incomingAmount;
+        }
         int currentAmount = currentUtilities.getOrDefault(utilityType, 0);
         // getOrDefault = bir ihtimal null dondurup hata vermemesi icin kullandik.
         // eger null dondureceksen dondurme 0 ver diyoruz.
@@ -58,9 +61,10 @@ public abstract class Zone extends Cell implements UtilityConsumer {
 
         // log icin durum raporu
 
-        if  (amountToConsume > 0) {
-            System.out.println(this.getClass().getSimpleName() + " at " + "(" + this.getX() + "," + this.getY() + ") recieved " +  amountToConsume + " "+ utilityType);
-        }
+        String label = this.getClass().getSimpleName();
+        if (label.equals("Housing")) label = "House";
+        System.out.println(label + " at (" + this.getY() + "," + this.getX() + ") received "
+                + amountToConsume + " " + utilityType.toLowerCase());
 
         currentUtilities.put(utilityType, currentAmount + amountToConsume);
         return incomingAmount - amountToConsume;
@@ -90,4 +94,6 @@ public abstract class Zone extends Cell implements UtilityConsumer {
     public boolean isFullySupplied() {
         return getMinUtility() >= getDemand();
     }
+    @Override
+    public boolean requiresUtility(String type) { return true; }
 }

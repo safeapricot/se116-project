@@ -1,26 +1,24 @@
 package com.objectville.model.zones;
 
 public class Industrial extends Zone {
+    public Industrial(int x, int y) { super(x, y, 'I'); }
 
-    public Industrial(int x,int y) {
-        super(x, y, 'I');
-        }
     @Override
     public void updateLevelAndOutput() {
         int m = getMinUtility();
         boolean basics = m > 0 && receivedPopulation > 0;
-        boolean services = currentServices.get("Security") && currentServices.get("Health") && currentServices.get("Education");
+        boolean security = currentServices.get("Security");
 
         if (!basics) {
             level = 0;
         } else {
-            int targetLevel;
-            if (services && receivedPopulation > 0) targetLevel = 3;
-            else if (services) targetLevel = 2;
-            else targetLevel = 1;
+            int target;
+            if (security && receivedPopulation > 0) target = 3;
+            else if (security) target = 2;
+            else target = 1;
 
-            if (targetLevel > level) level = level + 1;
-            else if (targetLevel < level) level = level - 1;
+            if (target > level) level++;
+            else if (target < level) level--;
         }
 
         if (level == 0) output = 0;
@@ -33,6 +31,9 @@ public class Industrial extends Zone {
     public int getMinUtility() {
         return Math.min(currentUtilities.get("Electricity"), currentUtilities.get("Water"));
     }
+
+    @Override
+    public boolean requiresUtility(String type) {
+        return !type.equals("Internet");
+    }
 }
-
-

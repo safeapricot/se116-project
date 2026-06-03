@@ -25,7 +25,7 @@ public abstract class Cell {
 
     //Eğer cell, santral değilse boş döner
     public String getUtilityType() {
-        return " ";
+        return "";
     }
 
     //Eğer cell, santral değilse üretim kapasitesi 0

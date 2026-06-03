@@ -8,5 +8,6 @@ public interface UtilityConsumer {
     void consumeInternet (int amount);
 
     boolean isFullySupplied();
+    boolean requiresUtility(String type);
 
 }

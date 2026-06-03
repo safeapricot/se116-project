@@ -13,37 +13,53 @@ import java.util.*;
 public class SimulationManager {
     private CityMap map;
 
-    public SimulationManager(CityMap map){
-        this.map=map;
+    public SimulationManager(CityMap map) {
+        this.map = map;
     }
 
+    public void run(int ticks) {
+        Cell[][] grid = map.getCellGrid();
+        ResourcePool pool = new ResourcePool();
 
+        for (int tick = 1; tick <= ticks; tick++) {
+            System.out.println("Tick " + tick );
 
+            resetZones(grid);
+            provideServices();
+            distributeUtilities();
+            distributeResources(pool, grid);
+            updateZonesAndAccumulate(pool, grid);
+        }
+    }
 
-     // BFS methodu
+    private void resetZones(Cell[][] grid) {
+        for (Cell[] row : grid)
+            for (Cell cell : row)
+                if (cell instanceof Zone z) z.resetTurnData();
+    }
 
+    // ===== BFS =====
     public void distributeBFS(Cell providerCell, String utilityType, int amount) {
         Queue<Cell> queue = new LinkedList<>();
-        Set<Cell> visited = new HashSet<>(); // sonsuz donguye girilmemesi icin hashset
+        Set<Cell> visited = new HashSet<>();
 
-        queue.add(providerCell); // siraya soktuk
-        visited.add(providerCell); // hashsete soktuk
+        queue.add(providerCell);
+        visited.add(providerCell);
 
         int remainingAmount = amount;
 
         while (!queue.isEmpty() && remainingAmount > 0) {
-            Cell currentCell = queue.poll(); // siradan aliyoruz
+            Cell currentCell = queue.poll();
 
             if (currentCell instanceof Zone) {
-                Zone zone = (Zone) currentCell; // consumeUtility kullanmak icin atadik
+                Zone zone = (Zone) currentCell;
                 remainingAmount = zone.consumeUtility(utilityType, remainingAmount);
             }
-            if (remainingAmount <= 0) {
-                break;
-            }
+            if (remainingAmount <= 0) break;
+
             List<Cell> neighbors = map.getNeighbors(currentCell.getX(), currentCell.getY());
             for (Cell neighbor : neighbors) {
-                if (!visited.contains(neighbor) && neighbor.isConnectable()) { // eger hala kaynak varsa yoldan devam ediyoruz.
+                if (!visited.contains(neighbor) && neighbor.isConnectable()) {
                     queue.add(neighbor);
                     visited.add(neighbor);
                 }
@@ -81,20 +97,20 @@ public class SimulationManager {
             int perZone = pool.getPopulation() / totalReceivers;
             for (Industrial i : industrials) i.receivedPopulation = perZone;
             for (Commercial c : commercials) c.receivedPopulation = perZone;
-            pool.consumePopulation(perZone * totalReceivers);
         }
+        pool.setPopulation(0);
 
         if (!commercials.isEmpty()) {
             int perC = pool.getGoods() / commercials.size();
             for (Commercial c : commercials) c.receivedGoods = perC;
-            pool.consumeGoods(perC * commercials.size());
         }
+        pool.setGoods(0);
 
         if (!houses.isEmpty()) {
             int perH = pool.getLifestyle() / houses.size();
             for (Housing h : houses) h.receivedLifestyle = perH;
-            pool.consumeLifestyle(perH * houses.size());
         }
+        pool.setLifestyle(0);
     }
 
     private void updateZonesAndAccumulate(ResourcePool pool, Cell[][] grid) {
@@ -113,19 +129,17 @@ public class SimulationManager {
             }
     }
 
-    // servicelari paylastirmak icin gereken method
     public void provideServices() {
         Cell[][] grid = map.getCellGrid();
         for (Cell[] cells : grid) {
             for (int j = 0; j < grid[0].length; j++) {
                 if (cells[j] instanceof Service) {
-                    Service service = (Service) cells[j];
-                    setRadius(service, grid); // teker teker service'lari arayip radiuslari ciziyoruz
+                    setRadius((Service) cells[j], grid);
                 }
             }
         }
     }
-    // yaricaplari kullanarak alanlari olusturma methodu. anlamasi benim icin daha kolay oldugu icin euclid kullanmaya karar verdim.
+
     private void setRadius(Service service, Cell[][] grid) {
         int x = service.getX();
         int y = service.getY();
@@ -134,22 +148,17 @@ public class SimulationManager {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if (grid[i][j] instanceof Zone) {
-                    Zone currentZone = (Zone) grid[i][j]; // zone olarak downcasting yapiyoruz cunku getX ve getY kullanmamiz lazim.
-
-                    double distance = Math.sqrt(Math.pow(currentZone.getX() - x, 2) + Math.pow(currentZone.getY() - y, 2)); // euclid
-
+                    Zone z = (Zone) grid[i][j];
+                    double distance = Math.sqrt(Math.pow(z.getX() - x, 2) + Math.pow(z.getY() - y, 2));
                     if (distance <= r) {
-                        currentZone.currentServices.put(service.getServiceType(),true);
+                        z.currentServices.put(service.getServiceType(), true);
 
-                        // simdi konsola yazdirilmasi gereken yer
-                        if (currentZone.getClass().equals(Housing.class)) { // burada output.txt'ye olabildigi kadar benzetmeye calisiyorum. normalde bizim class'in adi House olsaydi cok daha basit olurdu ama bizimki Housing.
-                            System.out.println("House at " + "(" + currentZone.getX() + "," + currentZone.getY() + ") recieved " + service.getServiceType() + " service");
-                        } else if ( (currentZone.getClass().equals(Commercial.class)) ||  (currentZone.getClass().equals(Industrial.class)) )   {
-                            System.out.println(currentZone.getClass() + " at " + "(" + currentZone.getX() + "," + currentZone.getY() + ") received " + service.getServiceType() + " service");
-                        }
+
+                        String label = (z instanceof Housing) ? "House" : z.getClass().getSimpleName();
+                        System.out.println(label + " at (" + z.getY() + "," + z.getX() + ") received "
+                                + service.getServiceType().toLowerCase() + " service");
                     }
                 }
-
             }
         }
     }
