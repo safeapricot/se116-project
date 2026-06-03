@@ -23,7 +23,7 @@ public class CityMap {
     // haritayı yüklemek için şimdilik test amaçlı olan metod
     public void loadMap(String filePath) {
         // satırları tutmak için gereken arraylist, çünkü mapin uzunluğunu önceden bilemeyiz.
-        ArrayList<String> lines = new ArrayList<String>();
+        ArrayList<String> lines = new ArrayList<>();
 
         File file = new File(filePath);
         try {

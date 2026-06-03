@@ -98,13 +98,16 @@ public class SimulationManager {
     private void updateZonesAndAccumulate(ResourcePool pool, Cell[][] grid) {
         for (Cell[] row : grid)
             for (Cell cell : row) {
-                if (cell instanceof Housing h) {
+                if (cell instanceof Housing) {
+                    Housing h = (Housing) cell;
                     h.updateLevelAndOutput();
                     pool.addPopulation(h.getOutput());
-                } else if (cell instanceof Industrial i) {
+                } else if (cell instanceof Industrial) {
+                    Industrial i = (Industrial) cell;
                     i.updateLevelAndOutput();
                     pool.addGoods(i.getOutput());
-                } else if (cell instanceof Commercial c) {
+                } else if (cell instanceof Commercial) {
+                   Commercial c = (Commercial) cell;
                     c.updateLevelAndOutput();
                     pool.addLifestyle(c.getOutput());
                 }
