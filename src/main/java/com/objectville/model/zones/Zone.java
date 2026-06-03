@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Zone extends Cell implements UtilityConsumer {
-    protected int level = 0;
+    public int level = 0;
     protected int output = 0;
     protected int demand = 1;
     public Map<String, Integer> currentUtilities = new HashMap<>();

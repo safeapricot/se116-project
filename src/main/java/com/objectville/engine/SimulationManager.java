@@ -13,14 +13,12 @@ import java.util.*;
 public class SimulationManager {
     private CityMap map;
 
-    public SimulationManager(CityMap map){
-        this.map=map;
+    public SimulationManager(CityMap map) {
+        this.map = map;
     }
 
 
-
-
-     // BFS methodu
+    // BFS methodu
 
     public void distributeBFS(Cell providerCell, String utilityType, int amount) {
         Queue<Cell> queue = new LinkedList<>();
@@ -125,6 +123,7 @@ public class SimulationManager {
             }
         }
     }
+
     // yaricaplari kullanarak alanlari olusturma methodu. anlamasi benim icin daha kolay oldugu icin euclid kullanmaya karar verdim.
     private void setRadius(Service service, Cell[][] grid) {
         int x = service.getX();
@@ -139,17 +138,81 @@ public class SimulationManager {
                     double distance = Math.sqrt(Math.pow(currentZone.getX() - x, 2) + Math.pow(currentZone.getY() - y, 2)); // euclid
 
                     if (distance <= r) {
-                        currentZone.currentServices.put(service.getServiceType(),true);
+                        currentZone.currentServices.put(service.getServiceType(), true);
 
                         // simdi konsola yazdirilmasi gereken yer
                         if (currentZone.getClass().equals(Housing.class)) { // burada output.txt'ye olabildigi kadar benzetmeye calisiyorum. normalde bizim class'in adi House olsaydi cok daha basit olurdu ama bizimki Housing.
                             System.out.println("House at " + "(" + currentZone.getX() + "," + currentZone.getY() + ") recieved " + service.getServiceType() + " service");
-                        } else if ( (currentZone.getClass().equals(Commercial.class)) ||  (currentZone.getClass().equals(Industrial.class)) )   {
+                        } else if ((currentZone.getClass().equals(Commercial.class)) || (currentZone.getClass().equals(Industrial.class))) {
                             System.out.println(currentZone.getClass() + " at " + "(" + currentZone.getX() + "," + currentZone.getY() + ") received " + service.getServiceType() + " service");
                         }
                     }
                 }
 
+            }
+        }
+    }
+
+    public void runSimulation(int tick, Cell[][] grid) {
+        ResourcePool pool = new ResourcePool();
+        for (int i = 1; i <= tick; i++) {
+            System.out.println("Tick " + i);
+            provideServices();
+            map.moveUtility();
+            distributeResources(pool, grid);
+            updateZonesAndAccumulate(pool, grid);
+
+            for (int a = 0; a < grid.length; a++) {
+                for (int b = 0; b < grid[a].length; b++) {
+                    if (grid[a][b] instanceof Zone) {
+                        ((Zone) grid[a][b]).resetTurnData();
+                    }
+                }
+
+
+            }
+        }
+    }
+
+
+    public void updateZonesAndAccumulateWithLog(ResourcePool pool, Cell[][] grid) {
+        for (Cell[] row : grid) {
+            for (Cell cell : row) {
+                if (cell instanceof Zone z) {
+                    Zone zone = (Zone) cell;
+                    int oldLevel = z.level;
+
+                    String typeName = zone.getClass().getSimpleName();
+
+                    if (typeName.equals("Housing")) {
+                        typeName = "House";
+                    }
+                    z.updateLevelAndOutput();
+
+                    int newLevel = z.level;
+                    int currentOutput = z.getOutput();
+
+                    if (currentOutput > 0) {
+                        String resourceType = "";
+                        if (typeName.equals("House")) {
+                            resourceType = "population";
+                            pool.addPopulation(currentOutput);
+                        } else if (typeName.equals("Industrial")) {
+                            resourceType = "Goods";
+                            pool.addGoods(currentOutput);
+                        } else if (typeName.equals("Commercial")) {
+                            resourceType = "Lifestyle";
+                            pool.addLifestyle(currentOutput);
+                        }
+                        System.out.println(typeName + " at " + "(" + zone.getX() + ") recieved " + zone.getY() + ") generated " + currentOutput + " " + resourceType);
+
+                        if (newLevel > oldLevel) {
+                            System.out.println(typeName + " at (" + zone.getX() + "," + zone.getY() + ") levels up from " + oldLevel + " to " + newLevel);
+                        } else if (newLevel < oldLevel) {
+                            System.out.println(typeName + " at (" + zone.getX() + "," + zone.getY() + ") levels down from " + oldLevel + " to " + newLevel);
+                        }
+                    }
+                }
             }
         }
     }
