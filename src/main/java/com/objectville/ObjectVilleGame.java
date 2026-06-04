@@ -41,7 +41,7 @@ public class ObjectVilleGame {
         try {
             ticks = Integer.parseInt(s);
         } catch (NumberFormatException e) {
-            throw new ConfigurationException("Tick sayısı bir tam sayı olmalı: " + s);
+            throw new ConfigurationException("Tick number should be an integer: " + s);
         }
         if (ticks < 0) {
             throw new ConfigurationException("Tick number cannot be negative: " + ticks);
