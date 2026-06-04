@@ -16,7 +16,7 @@ public class ObjectVilleGame {
         try {
             if (args.length != 2) {
                 throw new ConfigurationException(
-                        "Programı harita dosyası adı ve tick sayısı ile çalıştırın.");
+                        "Execute the program with map file and tick number.");
             }
             String mapFile = args[0];
             int tourNumber = parseTicks(args[1]);
@@ -44,7 +44,7 @@ public class ObjectVilleGame {
             throw new ConfigurationException("Tick sayısı bir tam sayı olmalı: " + s);
         }
         if (ticks < 0) {
-            throw new ConfigurationException("Tick sayısı negatif olamaz: " + ticks);
+            throw new ConfigurationException("Tick number cannot be negative: " + ticks);
         }
         return ticks;
     }
@@ -52,7 +52,12 @@ public class ObjectVilleGame {
     public static void setupLog() {
         try {
             File logDir = new File("logs");
-            if (!logDir.exists()) logDir.mkdirs();
+            if (!logDir.exists()) {
+                boolean isCreated = logDir.mkdirs(); // Sonucu bir değişkene atadık
+                if (!isCreated) {
+                    System.out.println("Error: there was a problem creating the logs folder.");
+                }
+            }
 
             DateTimeFormatter zamanLog = DateTimeFormatter.ofPattern("ddMMyyyy-HHmmss");
             String saat = LocalDateTime.now().format(zamanLog);
