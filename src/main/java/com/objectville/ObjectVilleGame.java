@@ -37,7 +37,10 @@ public class ObjectVilleGame {
         try {
             File logDir = new File("logs");
             if (!logDir.exists()) {
-                logDir.mkdirs();
+                boolean isCreated = logDir.mkdirs(); // Sonucu bir değişkene atadık
+                if (!isCreated) {
+                    System.out.println("Error: There was an error creating the logs folder.");
+                }
             }
             //output dosya adı
             DateTimeFormatter zamanLog = DateTimeFormatter.ofPattern("ddMMyyyy-HHmmss");
