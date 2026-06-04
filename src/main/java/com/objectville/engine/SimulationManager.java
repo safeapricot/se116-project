@@ -22,7 +22,7 @@ public class SimulationManager {
         ResourcePool pool = new ResourcePool();
 
         for (int tick = 1; tick <= ticks; tick++) {
-            System.out.println("Tick " + tick );
+            System.out.println("Tick " + tick);
 
             resetZones(grid);
             provideServices();
@@ -38,7 +38,6 @@ public class SimulationManager {
                 if (cell instanceof Zone z) z.resetTurnData();
     }
 
-    // ===== BFS =====
     public void distributeBFS(Cell providerCell, String utilityType, int amount) {
         Queue<Cell> queue = new LinkedList<>();
         Set<Cell> visited = new HashSet<>();
@@ -80,36 +79,41 @@ public class SimulationManager {
     }
 
     private void distributeResources(ResourcePool pool, Cell[][] grid) {
-        List<Housing> houses = new ArrayList<>();
-        List<Industrial> industrials = new ArrayList<>();
-        List<Commercial> commercials = new ArrayList<>();
-
-        for (Cell[] row : grid) {
+        int numHouses = 0, numIndustrial = 0, numCommercial = 0;
+        for (Cell[] row : grid)
             for (Cell cell : row) {
-                if (cell instanceof Housing) houses.add((Housing) cell);
-                else if (cell instanceof Industrial) industrials.add((Industrial) cell);
-                else if (cell instanceof Commercial) commercials.add((Commercial) cell);
+                if (cell instanceof Housing) numHouses++;
+                else if (cell instanceof Industrial) numIndustrial++;
+                else if (cell instanceof Commercial) numCommercial++;
             }
-        }
 
-        int totalReceivers = industrials.size() + commercials.size();
-        if (totalReceivers > 0) {
-            int perZone = pool.getPopulation() / totalReceivers;
-            for (Industrial i : industrials) i.receivedPopulation = perZone;
-            for (Commercial c : commercials) c.receivedPopulation = perZone;
-        }
+        int totalConsumers = numIndustrial + numCommercial;
+        int perPop = (totalConsumers > 0) ? pool.getPopulation() / totalConsumers : 0;
+        int perGoods = (numCommercial > 0) ? pool.getGoods() / numCommercial : 0;
+        int perLifestyle = (numHouses > 0) ? pool.getLifestyle() / numHouses : 0;
+
+        for (Cell[] row : grid)
+            for (Cell cell : row) {
+                if (cell instanceof Housing h) {
+                    h.receivedLifestyle = perLifestyle;
+                    if (perLifestyle > 0)
+                        System.out.println("House at (" + h.getY() + "," + h.getX() + ") received " + perLifestyle + " lifestyle");
+                } else if (cell instanceof Commercial c) {
+                    c.receivedPopulation = perPop;
+                    if (perPop > 0)
+                        System.out.println("Commercial at (" + c.getY() + "," + c.getX() + ") received " + perPop + " population");
+                    c.receivedGoods = perGoods;
+                    if (perGoods > 0)
+                        System.out.println("Commercial at (" + c.getY() + "," + c.getX() + ") received " + perGoods + " goods");
+                } else if (cell instanceof Industrial i) {
+                    i.receivedPopulation = perPop;
+                    if (perPop > 0)
+                        System.out.println("Industrial at (" + i.getY() + "," + i.getX() + ") received " + perPop + " population");
+                }
+            }
+
         pool.setPopulation(0);
-
-        if (!commercials.isEmpty()) {
-            int perC = pool.getGoods() / commercials.size();
-            for (Commercial c : commercials) c.receivedGoods = perC;
-        }
         pool.setGoods(0);
-
-        if (!houses.isEmpty()) {
-            int perH = pool.getLifestyle() / houses.size();
-            for (Housing h : houses) h.receivedLifestyle = perH;
-        }
         pool.setLifestyle(0);
     }
 
@@ -117,13 +121,37 @@ public class SimulationManager {
         for (Cell[] row : grid)
             for (Cell cell : row) {
                 if (cell instanceof Housing h) {
+                    int oldLevel = h.getLevel();
                     h.updateLevelAndOutput();
+                    int newLevel = h.getLevel();
+                    if (h.getOutput() > 0 || newLevel < oldLevel)
+                        System.out.println("House at (" + h.getY() + "," + h.getX() + ") generated " + h.getOutput() + " population");
+                    if (newLevel > oldLevel)
+                        System.out.println("House at (" + h.getY() + "," + h.getX() + ") levels up from " + oldLevel + " to " + newLevel);
+                    else if (newLevel < oldLevel)
+                        System.out.println("House at (" + h.getY() + "," + h.getX() + ") levels down from " + oldLevel + " to " + newLevel);
                     pool.addPopulation(h.getOutput());
                 } else if (cell instanceof Industrial i) {
+                    int oldLevel = i.getLevel();
                     i.updateLevelAndOutput();
+                    int newLevel = i.getLevel();
+                    if (i.getOutput() > 0 || newLevel < oldLevel)
+                        System.out.println("Industrial at (" + i.getY() + "," + i.getX() + ") generated " + i.getOutput() + " goods");
+                    if (newLevel > oldLevel)
+                        System.out.println("Industrial at (" + i.getY() + "," + i.getX() + ") levels up from " + oldLevel + " to " + newLevel);
+                    else if (newLevel < oldLevel)
+                        System.out.println("Industrial at (" + i.getY() + "," + i.getX() + ") levels down from " + oldLevel + " to " + newLevel);
                     pool.addGoods(i.getOutput());
                 } else if (cell instanceof Commercial c) {
+                    int oldLevel = c.getLevel();
                     c.updateLevelAndOutput();
+                    int newLevel = c.getLevel();
+                    if (c.getOutput() > 0 || newLevel < oldLevel)
+                        System.out.println("Commercial at (" + c.getY() + "," + c.getX() + ") generated " + c.getOutput() + " lifestyle");
+                    if (newLevel > oldLevel)
+                        System.out.println("Commercial at (" + c.getY() + "," + c.getX() + ") levels up from " + oldLevel + " to " + newLevel);
+                    else if (newLevel < oldLevel)
+                        System.out.println("Commercial at (" + c.getY() + "," + c.getX() + ") levels down from " + oldLevel + " to " + newLevel);
                     pool.addLifestyle(c.getOutput());
                 }
             }
@@ -153,10 +181,9 @@ public class SimulationManager {
                     if (distance <= r) {
                         z.currentServices.put(service.getServiceType(), true);
 
-
                         String label = (z instanceof Housing) ? "House" : z.getClass().getSimpleName();
                         System.out.println(label + " at (" + z.getY() + "," + z.getX() + ") received "
-                                + service.getServiceType().toLowerCase() + " service");
+                                + service.getServiceType().toLowerCase(java.util.Locale.ENGLISH) + " service");
                     }
                 }
             }

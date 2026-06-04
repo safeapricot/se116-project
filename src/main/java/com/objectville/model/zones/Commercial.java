@@ -6,14 +6,14 @@ public class Commercial extends Zone {
     @Override
     public void updateLevelAndOutput() {
         int m = getMinUtility();
-        boolean basics = m > 0 && receivedPopulation > 0 && receivedGoods > 0;
         boolean security = currentServices.get("Security");
+        boolean excess = receivedPopulation > 1 && receivedGoods > 1;
 
-        if (!basics) {
+        if (m == 0) {
             level = 0;
         } else {
             int target;
-            if (security && receivedPopulation > 0 && receivedGoods > 0) target = 3;
+            if (security && excess) target = 3;
             else if (security) target = 2;
             else target = 1;
 

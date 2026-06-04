@@ -1,5 +1,6 @@
 package com.objectville.engine;
 
+import com.objectville.exception.InvalidMapException;
 import com.objectville.model.Cell;
 import com.objectville.model.Empty;
 import com.objectville.model.Road;
@@ -16,43 +17,42 @@ import java.util.List;
 
 public class CityMap {
 
-    // mapi tutmak icin gereken karakter arrayi
     private char[][] charGrid;
     private Cell[][] cellGrid;
 
-    // haritayı yüklemek için şimdilik test amaçlı olan metod
     public void loadMap(String filePath) {
-        // satırları tutmak için gereken arraylist, çünkü mapin uzunluğunu önceden bilemeyiz.
         ArrayList<String> lines = new ArrayList<String>();
 
         File file = new File(filePath);
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
-            System.out.println("Loading Map...");
-
             while ((line = br.readLine()) != null) {
                 lines.add(line);
             }
-            System.out.println("Map successfully loaded!");
-
-            // sütün ve satır sayılarını alıyoruz
-            int rowCount = lines.size();
-            int colCount = lines.get(0).length(); // <- ilk satırın uzunluğunu sütün sayısı olarak aldık
-
-            // bize asıl gereken arrayı oluşturma
-            charGrid = new char[rowCount][colCount];
-            for (int i = 0; i < rowCount; i++) {
-                charGrid[i] = lines.get(i).toCharArray();
-            }
-
-
         } catch (IOException e) {
-            System.out.println("Error loading Map!" + e.getMessage());
+            throw new InvalidMapException("Map file could not be read: " + filePath);
+        }
+
+        if (lines.isEmpty()) {
+            throw new InvalidMapException("Map file is empty: " + filePath);
+        }
+
+        int rowCount = lines.size();
+        int colCount = lines.get(0).length();
+
+        for (int i = 0; i < rowCount; i++) {
+            if (lines.get(i).length() != colCount) {
+                throw new InvalidMapException("Map is not rectangular at row " + i);
+            }
+        }
+
+        charGrid = new char[rowCount][colCount];
+        for (int i = 0; i < rowCount; i++) {
+            charGrid[i] = lines.get(i).toCharArray();
         }
     }
 
-    // Harflere classları atama methodu switch case ile
     public void generateCells() {
         if (charGrid == null) {
             System.out.println("Error: map must be loaded first!");
@@ -62,11 +62,10 @@ public class CityMap {
         int rowCount = charGrid.length;
         int colCount = charGrid[0].length;
         cellGrid = new Cell[rowCount][colCount];
-        for (int i = 0; i < rowCount; i++) {        // i = satır
-            for (int j = 0; j < colCount; j++) {    // j = sütun
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < colCount; j++) {
                 char letter = charGrid[i][j];
 
-                // dikkat: x = sütun (j), y = satır (i)
                 switch (letter) {
                     case 'E':
                         cellGrid[i][j] = new Empty(j, i);
@@ -101,14 +100,11 @@ public class CityMap {
                     case 'P':
                         cellGrid[i][j] = new PowerPlant(j, i);
                         break;
-                    //sanırım bu kadar
                     default:
-                        System.out.println("Error: Unknown letter!");
-                        break;
+                        throw new InvalidMapException("Unknown letter in map: " + letter);
                 }
             }
         }
-        System.out.println("Cells successfully loaded!");
     }
 
     public char[][] getGrid() {
@@ -119,28 +115,23 @@ public class CityMap {
         return cellGrid;
     }
 
-    // alttaki method utilityprovider'in BFS algoritması için gerekli (komsularda isConnectable var mi diye bakacagiz)
     public List<Cell> getNeighbors(int x, int y) {
         List<Cell> neighbors = new ArrayList<>();
         int rowCount = charGrid.length;
         int colCount = charGrid[0].length;
 
-        // yukarı-aşağı-sol-sağ
+        if (y > 0 && x > 0) neighbors.add(cellGrid[y - 1][x - 1]);
         if (y > 0) neighbors.add(cellGrid[y - 1][x]);
-        if (y < rowCount - 1) neighbors.add(cellGrid[y + 1][x]);
+        if (y > 0 && x < colCount - 1) neighbors.add(cellGrid[y - 1][x + 1]);
         if (x > 0) neighbors.add(cellGrid[y][x - 1]);
         if (x < colCount - 1) neighbors.add(cellGrid[y][x + 1]);
-
-        // çaprazlar (8-komşuluk için ekledim)
-        if (y > 0 && x > 0) neighbors.add(cellGrid[y - 1][x - 1]);
-        if (y > 0 && x < colCount - 1) neighbors.add(cellGrid[y - 1][x + 1]);
         if (y < rowCount - 1 && x > 0) neighbors.add(cellGrid[y + 1][x - 1]);
+        if (y < rowCount - 1) neighbors.add(cellGrid[y + 1][x]);
         if (y < rowCount - 1 && x < colCount - 1) neighbors.add(cellGrid[y + 1][x + 1]);
 
         return neighbors;
     }
 
-    //TOPLAM TALEP
     public int getTotalUtilityDemand() {
         int totalDemand = 0;
 
@@ -150,13 +141,10 @@ public class CityMap {
                 char letter = charGrid[i][j];
 
                 if (letter == 'H' || letter == 'I' || letter == 'C') {
-
                     totalDemand += cellGrid[i][j].getDemand();
-                    //Cell dosyasının içine bir getDemand methodu ekledim
                 }
             }
         }
         return totalDemand;
     }
-
 }

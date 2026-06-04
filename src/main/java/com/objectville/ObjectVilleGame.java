@@ -3,6 +3,7 @@ package com.objectville;
 import com.objectville.engine.CityMap;
 import com.objectville.engine.SimulationManager;
 import com.objectville.exception.ConfigurationException;
+import com.objectville.exception.InvalidMapException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,9 +29,11 @@ public class ObjectVilleGame {
 
             new SimulationManager(map).run(tourNumber);
 
-        } catch (ConfigurationException e) {
-            System.out.println("Configuration error: " + e.getMessage());
-        }
+        }   catch (InvalidMapException e) {
+        System.out.println("Invalid map: " + e.getMessage());
+    }       catch (ConfigurationException e) {
+        System.out.println("Configuration error: " + e.getMessage());
+    }
     }
 
     private static int parseTicks(String s) {

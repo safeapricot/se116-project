@@ -2,6 +2,7 @@ package com.objectville.model.zones;
 import com.objectville.interfaces.UtilityConsumer;
 import com.objectville.model.Cell;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public abstract class Zone extends Cell implements UtilityConsumer {
@@ -38,19 +39,24 @@ public abstract class Zone extends Cell implements UtilityConsumer {
 
     public abstract void updateLevelAndOutput();
 
-    public int getOutput() { return output; }
-    public int getDemand() { return Math.max(1, output); }
+    public int getLevel() {
+        return level;
+    }
 
-    // BFS algorithm için utility consuming methodu
-    
+    public int getOutput() {
+        return output;
+    }
+
+    public int getDemand() {
+        return Math.max(1, output);
+    }
+
     public int consumeUtility(String utilityType, int incomingAmount) {
         if (!requiresUtility(utilityType)) {
             return incomingAmount;
         }
         int currentAmount = currentUtilities.getOrDefault(utilityType, 0);
-        // getOrDefault = bir ihtimal null dondurup hata vermemesi icin kullandik.
-        // eger null dondureceksen dondurme 0 ver diyoruz.
-        int missingAmount = Math.max(0, getDemand() - currentAmount);//incomingi değil de currenti çıkarmamız gerekiyor diye düşündüm o yüzden düzelttim.tekrar bakarız
+        int missingAmount = Math.max(0, getDemand() - currentAmount);
 
         if (missingAmount == 0) {
             return incomingAmount;
@@ -58,18 +64,14 @@ public abstract class Zone extends Cell implements UtilityConsumer {
 
         int amountToConsume = Math.min(incomingAmount, missingAmount);
 
-
-        // log icin durum raporu
-
         String label = this.getClass().getSimpleName();
         if (label.equals("Housing")) label = "House";
         System.out.println(label + " at (" + this.getY() + "," + this.getX() + ") received "
-                + amountToConsume + " " + utilityType.toLowerCase());
+                + amountToConsume + " " + utilityType.toLowerCase(java.util.Locale.ENGLISH));
 
         currentUtilities.put(utilityType, currentAmount + amountToConsume);
         return incomingAmount - amountToConsume;
     }
-
 
     @Override
     public boolean isConnectable() {
@@ -85,6 +87,7 @@ public abstract class Zone extends Cell implements UtilityConsumer {
     public void consumeWater(int amount){
         consumeUtility("Water", amount);
     }
+
     @Override
     public void consumeInternet(int amount) {
         consumeUtility("Internet", amount);
@@ -94,6 +97,9 @@ public abstract class Zone extends Cell implements UtilityConsumer {
     public boolean isFullySupplied() {
         return getMinUtility() >= getDemand();
     }
+
     @Override
-    public boolean requiresUtility(String type) { return true; }
+    public boolean requiresUtility(String type) {
+        return true;
+    }
 }
