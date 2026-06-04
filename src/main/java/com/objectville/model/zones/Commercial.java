@@ -37,6 +37,11 @@ public class Commercial extends Zone {
         else output= m * 2 + Math.min( receivedPopulation, receivedGoods);
 
         }
+
+        @Override
+        public String toString(){
+            return this.getClass().getSimpleName() + " Zone (level : " + level + " Output : " + output + ") ";
+        }
     }
 
 

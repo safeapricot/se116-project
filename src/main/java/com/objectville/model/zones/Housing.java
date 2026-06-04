@@ -63,4 +63,9 @@ public class Housing extends Zone implements UtilityConsumer {
     public boolean isFullySupplied() {
         return false;
     }
+
+    @Override
+    public String toString(){
+        return this.getClass().getSimpleName() + " Zone (level : " + level + " Output : " + output + ") ";
+    }
 }

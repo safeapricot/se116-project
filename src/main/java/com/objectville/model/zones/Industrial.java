@@ -40,6 +40,11 @@ public class Industrial extends Zone {
     public int getMinUtility() {
         return Math.min(currentUtilities.get("Electricity"), currentUtilities.get("Water"));
     }
+
+    @Override
+    public String toString(){
+        return this.getClass().getSimpleName() + " Zone (level : " + level + " Output : " + output + ") ";//daha okunabilir olarak yazdırmak için.Housing ve commercial a da ekledim.
+    }
 }
 
 
